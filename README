@@ -1,0 +1,4 @@
+Sample code for the FT245RL
+
+The FT245RL breakout board has an USB connector, one 16-pin IO connector. The brains of the PCB, of course, is an FT245RL chip. 
+http://www.bitwizard.nl/wiki/index.php/FT245RL_V1.5
