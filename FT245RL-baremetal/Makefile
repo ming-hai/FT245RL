@@ -4,19 +4,19 @@ AOPS = --warn --fatal-warnings  -mcpu=arm1176jzf-s -march=armv6 -mfpu=vfp
 
 COPS = -Wall -O3 -nostartfiles -ffreestanding -mcpu=arm1176jzf-s -mtune=arm1176jzf-s -mhard-float 
 COPS += -DBARE_METAL
-COPS += -DENABLE_FRAMEBUFFER
+#sCOPS += -DENABLE_FRAMEBUFFER
 #COPS += -DBW_I2C_UI
 #COPS += -DDEBUG
 #COPS += -DDEBUG_ANALYZER
 COPS += -I"./include"
 COPS += -I"./firmware/include"
 #COPS += -I"../ff9b/src"
-COPS += -I"../fb" -I"../fb/include"
-COPS += -I"../bob-baremetal/include"
+#COPS += -I"../fb" -I"../fb/include"
+#COPS += -I"../bob-baremetal/include"
 
 LIB = -L /opt/gnuarm-hardfp/arm-none-eabi/lib/ -L/opt/gnuarm-hardfp/lib/gcc/arm-none-eabi/4.7.3 
-LIB += -L"../fb/lib"
-LIB += -L"../bob-baremetal/lib"
+#LIB += -L"../fb/lib"
+#LIB += -L"../bob-baremetal/lib"
 #LIB += -L"../emmc/lib"
 #LIB += -L"../ff9b/lib"
 
@@ -64,8 +64,8 @@ $(BUILD)%.o: $(SOURCE)lib/%.c
 $(BUILD)devices/%.o: $(SOURCE)devices/%.c
 	$(ARMGNU)-gcc $(COPS) $< -c -o $@	
 
-$(BUILD)main.elf : Makefile $(LINKER) $(OBJECTS) ../bob-baremetal/lib/libbob.a ../fb/lib/libfb.a
-	$(ARMGNU)-ld $(OBJECTS) -Map $(MAP) -T $(LINKER) -o $(BUILD)main.elf $(LIB) -lfb -lbob -lc -lgcc
+$(BUILD)main.elf : Makefile $(LINKER) $(OBJECTS)
+	$(ARMGNU)-ld $(OBJECTS) -Map $(MAP) -T $(LINKER) -o $(BUILD)main.elf $(LIB) 
 	$(ARMGNU)-objdump -D $(BUILD)main.elf > $(LIST)
 
 $(TARGET) : $(BUILD)main.elf
