@@ -33,7 +33,7 @@ LOAD build/main.o
  .init          0x00008000       0xe0 build/vectors.o
                 0x00008000                _start
 
-.text           0x000080e0      0x308
+.text           0x000080e0      0x318
                 0x000080e0                . = ALIGN (0x4)
  *(.text*)
  .text          0x000080e0       0x50 build/vectors.o
@@ -43,88 +43,88 @@ LOAD build/main.o
                 0x00008104                __enable_fiq
                 0x00008114                __disable_fiq
                 0x00008124                memory_barrier
- .text          0x00008130      0x2b8 build/main.o
+ .text          0x00008130      0x2c8 build/main.o
                 0x00008130                c_irq_handler
                 0x00008134                c_fiq_handler
                 0x00008138                data_gpio_fsel_output
                 0x00008170                data_gpio_fsel_input
                 0x0000819c                FT245RL_init
-                0x000081c4                FT245RL_write_data
-                0x00008238                FT245RL_read_data
-                0x000082a4                notmain
+                0x000081cc                FT245RL_write_data
+                0x00008240                FT245RL_read_data
+                0x000082ac                notmain
 
-.glue_7         0x000083e8        0x0
+.glue_7         0x000083f8        0x0
  .glue_7        0x00000000        0x0 linker stubs
 
-.glue_7t        0x000083e8        0x0
+.glue_7t        0x000083f8        0x0
  .glue_7t       0x00000000        0x0 linker stubs
 
-.vfp11_veneer   0x000083e8        0x0
+.vfp11_veneer   0x000083f8        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x000083e8        0x0
+.v4_bx          0x000083f8        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x000083e8        0x0
+.iplt           0x000083f8        0x0
  .iplt          0x00000000        0x0 build/vectors.o
 
-.rel.dyn        0x000083e8        0x0
+.rel.dyn        0x000083f8        0x0
  .rel.iplt      0x00000000        0x0 build/vectors.o
 
-.rodata         0x000083e8        0x0
-                0x000083e8                . = ALIGN (0x4)
+.rodata         0x000083f8        0x0
+                0x000083f8                . = ALIGN (0x4)
  *(.rodata)
  *(.rodata.*)
  *(.rodata.str1.4)
  *(.shstrtab)
  *(.strtab)
-                0x000083e8                __data_start = .
+                0x000083f8                __data_start = .
 
-.data           0x000083e8        0x0
-                0x000083e8                . = ALIGN (0x4)
+.data           0x000083f8        0x0
+                0x000083f8                . = ALIGN (0x4)
  *(SORT(.table*))
  *(.ahb_sram_0)
  *(.data)
- .data          0x000083e8        0x0 build/vectors.o
- .data          0x000083e8        0x0 build/main.o
-                0x000083e8                __data_end = .
-                0x000083e8                __bss_start = .
+ .data          0x000083f8        0x0 build/vectors.o
+ .data          0x000083f8        0x0 build/main.o
+                0x000083f8                __data_end = .
+                0x000083f8                __bss_start = .
 
-.igot.plt       0x000083e8        0x0
+.igot.plt       0x000083f8        0x0
  .igot.plt      0x00000000        0x0 build/vectors.o
 
-.bss            0x000083e8        0x0
-                0x000083e8                . = ALIGN (0x4)
+.bss            0x000083f8        0x0
+                0x000083f8                . = ALIGN (0x4)
  *(.bss*)
- .bss           0x000083e8        0x0 build/vectors.o
- .bss           0x000083e8        0x0 build/main.o
-                0x000083e8                __bss_end = .
+ .bss           0x000083f8        0x0 build/vectors.o
+ .bss           0x000083f8        0x0 build/main.o
+                0x000083f8                __bss_end = .
 
 /DISCARD/
  *(*.ARM.attributes)
  *(*.comment)
  *(*.debug*)
-                0x000083e8                PROVIDE (end, .)
-                0x000083e8                _end = .
-                0x000083e8                . = ALIGN (0x4)
-                0x000087e8                . = (. + __und_stack_size)
-                0x000087e8                __und_stack_top = .
-                0x000087e8                . = ALIGN (0x4)
-                0x00008be8                . = (. + __abt_stack_size)
-                0x00008be8                __abt_stack_top = .
-                0x00008be8                . = ALIGN (0x4)
-                0x00008fe8                . = (. + __fiq_stack_size)
-                0x00008fe8                __fiq_stack_top = .
-                0x00008fe8                . = ALIGN (0x4)
-                0x000093e8                . = (. + __irq_stack_size)
-                0x000093e8                __irq_stack_top = .
-                0x000093e8                . = ALIGN (0x4)
-                0x000097e8                . = (. + __svc_stack_size)
-                0x000097e8                __svc_stack_top = .
-                0x000097e8                . = ALIGN (0x4)
-                0x00009be8                . = (. + __sys_stack_size)
-                0x00009be8                __sys_stack_top = .
-                0x00009be8                . = ALIGN (0x8)
-                0x00009be8                heap_low = .
+                0x000083f8                PROVIDE (end, .)
+                0x000083f8                _end = .
+                0x000083f8                . = ALIGN (0x4)
+                0x000087f8                . = (. + __und_stack_size)
+                0x000087f8                __und_stack_top = .
+                0x000087f8                . = ALIGN (0x4)
+                0x00008bf8                . = (. + __abt_stack_size)
+                0x00008bf8                __abt_stack_top = .
+                0x00008bf8                . = ALIGN (0x4)
+                0x00008ff8                . = (. + __fiq_stack_size)
+                0x00008ff8                __fiq_stack_top = .
+                0x00008ff8                . = ALIGN (0x4)
+                0x000093f8                . = (. + __irq_stack_size)
+                0x000093f8                __irq_stack_top = .
+                0x000093f8                . = ALIGN (0x4)
+                0x000097f8                . = (. + __svc_stack_size)
+                0x000097f8                __svc_stack_top = .
+                0x000097f8                . = ALIGN (0x4)
+                0x00009bf8                . = (. + __sys_stack_size)
+                0x00009bf8                __sys_stack_top = .
+                0x00009bf8                . = ALIGN (0x8)
+                0x00009bf8                heap_low = .
                 0x08000000                heap_top = __ram_end
 OUTPUT(build/main.elf elf32-littlearm)

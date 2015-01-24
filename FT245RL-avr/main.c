@@ -44,7 +44,8 @@
  * 11:PB3	<----	RXF#
  */
 
-void data_io_ddr_output(void) {
+void data_io_ddr_output(void)
+{
 	uint8_t value = DDRD;
 	value |= _BV(PORTD2) | _BV(PORTD3) | _BV(PORTD4) | _BV(PORTD5) | _BV(PORTD6) | _BV(PORTD7);
 	DDRD = value;								// output D2, D3, D4, D5, D6, D7
@@ -53,7 +54,8 @@ void data_io_ddr_output(void) {
 	DDRB = value;								// output D0, D1
 }
 
-void data_io_ddr_input(void) {
+void data_io_ddr_input(void)
+{
 	uint8_t value = DDRD;
 	value &= ~_BV(PORTD2) & ~_BV(PORTD3) & ~_BV(PORTD4) & ~_BV(PORTD5) & ~_BV(PORTD6) & ~_BV(PORTD7);
 	DDRD = value;								// input D2, D3, D4, D5, D6, D7
@@ -62,7 +64,8 @@ void data_io_ddr_input(void) {
 	DDRB = value;								// input D0, D1
 }
 
-void FT245RL_init(void) {
+void FT245RL_init(void)
+{
 	uint8_t value = DDRB;
 	value &= ~_BV(PORTB2) & ~_BV(PORTB3);		// TXE#, RFX# input
 	value |= _BV(PORTB4) | _BV(PORTB5);			// WR, RD# output
@@ -73,20 +76,22 @@ void FT245RL_init(void) {
 	PORTB &= ~_BV(PORTB4);
 }
 
-void FT245RL_write_data(uint8_t data) {
+void FT245RL_write_data(uint8_t data)
+{
 	data_io_ddr_output();
 	// Raise WR to start the write.
 	PORTB |= _BV(PORTB4);
 	asm volatile("nop"::);
 	// Put the data on the bus.
-	PORTB = _BV(PORTB4) | _BV(PORTB5) | (data & 0b00000011);		// Keep WR high, and RD# high
+	PORTB = _BV(PORTB4) | _BV(PORTB5) | (data & 0b00000011);// Keep WR high, and RD# high
 	PORTD = data & ~0b00000011;
 	asm volatile("nop"::);
 	// Drop WR to tell the FT245 to read the data.
 	PORTB &= ~_BV(PORTB4);
 }
 
-uint8_t FT245RL_read_data() {
+uint8_t FT245RL_read_data()
+{
 	data_io_ddr_input();
 	PORTB &= ~_BV(PORTB5);
 	// Wait for the FT245 to respond with data.
@@ -100,11 +105,14 @@ uint8_t FT245RL_read_data() {
 	return data;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	FT245RL_init();
 
-	while (1) {
-		if (!(PINB & _BV(PB3))) {
+	while (1)
+	{
+		if (!(PINB & _BV(PB3)))
+		{
 			uint8_t data = FT245RL_read_data();
 			if (data == '\r')
 				FT245RL_write_data('\n');

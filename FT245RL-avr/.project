@@ -3,7 +3,6 @@
 	<name>FT245RL-avr</name>
 	<comment></comment>
 	<projects>
-		<project>avr</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
