@@ -3,7 +3,6 @@
 	<name>FT245RL-baremetal</name>
 	<comment></comment>
 	<projects>
-		<project>firmware</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
