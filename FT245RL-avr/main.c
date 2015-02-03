@@ -44,7 +44,7 @@
  * 11:PB3	<----	RXF#
  */
 
-void data_io_ddr_output(void)
+static void data_io_ddr_output(void)
 {
 	uint8_t value = DDRD;
 	value |= _BV(PORTD2) | _BV(PORTD3) | _BV(PORTD4) | _BV(PORTD5) | _BV(PORTD6) | _BV(PORTD7);
@@ -54,7 +54,7 @@ void data_io_ddr_output(void)
 	DDRB = value;								// output D0, D1
 }
 
-void data_io_ddr_input(void)
+static void data_io_ddr_input(void)
 {
 	uint8_t value = DDRD;
 	value &= ~_BV(PORTD2) & ~_BV(PORTD3) & ~_BV(PORTD4) & ~_BV(PORTD5) & ~_BV(PORTD6) & ~_BV(PORTD7);
@@ -105,13 +105,23 @@ uint8_t FT245RL_read_data()
 	return data;
 }
 
+/**
+ * Read RXF#
+ *
+ * @return
+ */
+uint8_t FT245RL_data_available(void)
+{
+	return (!(PINB & _BV(PB3)));
+}
+
 int main(int argc, char *argv[])
 {
 	FT245RL_init();
 
 	while (1)
 	{
-		if (!(PINB & _BV(PB3)))
+		if (FT245RL_data_available())
 		{
 			uint8_t data = FT245RL_read_data();
 			if (data == '\r')
@@ -119,4 +129,6 @@ int main(int argc, char *argv[])
 			FT245RL_write_data(data);
 		}
 	}
+
+	return 0;
 }

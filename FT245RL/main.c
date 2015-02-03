@@ -33,6 +33,7 @@
 // Or you can test it before installing with:
 // gcc -o main -I ../../src ../../src/bcm2835.c main.c
 // sudo ./main
+
 #include <stdio.h>
 #include <stdint.h>
 #include "bcm2835.h"
@@ -71,7 +72,7 @@
 /**
  *
  */
-void data_gpio_fsel_output()
+static void data_gpio_fsel_output()
 {
 	// Data output
 	uint32_t value = GPFSEL0;
@@ -99,7 +100,7 @@ void data_gpio_fsel_output()
 /**
  *
  */
-void data_gpio_fsel_input()
+static void data_gpio_fsel_input()
 {
 	// Data input
 	uint32_t value = GPFSEL0;
@@ -187,6 +188,16 @@ uint8_t FT245RL_read_data()
 }
 
 /**
+ * Read RXF#
+ *
+ * @return
+ */
+uint8_t FT245RL_data_available(void)
+{
+	return (!(GPLEV0 & (1 << 25)));
+}
+
+/**
  *
  * @param argc
  * @param argv
@@ -200,7 +211,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		if (!(GPLEV0 & (1 << 25)))
+		if (FT245RL_data_available())
 		{
 			uint8_t data = FT245RL_read_data();
 			if (data == '\r')

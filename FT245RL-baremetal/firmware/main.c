@@ -58,7 +58,7 @@ void __attribute__((interrupt("FIQ"))) c_fiq_handler(void) {}
 /**
  *
  */
-void data_gpio_fsel_output()
+static void data_gpio_fsel_output()
 {
 	// Data output
 	uint32_t value = BCM2835_GPIO->GPFSEL0;
@@ -86,7 +86,7 @@ void data_gpio_fsel_output()
 /**
  *
  */
-void data_gpio_fsel_input()
+static void data_gpio_fsel_input()
 {
 	// Data input
 	uint32_t value = BCM2835_GPIO->GPFSEL0;
@@ -168,9 +168,18 @@ uint8_t FT245RL_read_data()
 	uint8_t data = (uint8_t) ((in_gpio >> 2) & 0xF8) | (uint8_t) (in_gpio & 0x0F);
 	// Bring RD# back up so the FT245 can let go of the data.
 	bcm2835_gpio_set(_RD);
-	// Wait to prevent false 'no data' readings.
-	asm volatile("nop"::);
+	asm volatile("nop"::);		//TODO Is this really needed?
 	return data;
+}
+
+/**
+ * Read RXF#
+ *
+ * @return
+ */
+uint8_t FT245RL_data_available(void)
+{
+	return (!(BCM2835_GPIO->GPLEV0 & (1 << 25)));
 }
 
 /**
@@ -186,7 +195,7 @@ int notmain(uint32_t boot_dev, uint32_t arm_m_type, uint32_t atags)
 
 	while (1)
 	{
-		if (!(BCM2835_GPIO->GPLEV0 & (1 << 25)))
+		if (FT245RL_data_available())
 		{
 			uint8_t data = FT245RL_read_data();
 			if (data == '\r')
