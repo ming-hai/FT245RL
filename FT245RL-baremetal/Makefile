@@ -8,11 +8,14 @@ COPS += -DBARE_METAL
 #COPS += -DBW_I2C_UI
 #COPS += -DDEBUG
 #COPS += -DDEBUG_ANALYZER
+
+#COPS += -I"./common/include"
 COPS += -I"./include"
-COPS += -I"./firmware/include"
 #COPS += -I"../ff9b/src"
-#COPS += -I"../fb" -I"../fb/include"
+#COPS += -I"../fb/include"
 #COPS += -I"../bob-baremetal/include"
+COPS += -I"../bcm2835-baremetal/include"
+#COPS += -I"../hal-baremetal/include"
 
 LIB = -L /opt/gnuarm-hardfp/arm-none-eabi/lib/ -L/opt/gnuarm-hardfp/lib/gcc/arm-none-eabi/4.9.2 
 #LIB += -L"../fb/lib"
